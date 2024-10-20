@@ -1,10 +1,13 @@
 package com.stepcounterapp
+import android.content.ComponentName 
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.appwidget.AppWidgetManager
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
@@ -17,7 +20,15 @@ class StepCounterModule(reactContext: ReactApplicationContext) :
     private var stepSensor: Sensor? = null
     private var accelerometer: Sensor? = null
     private var gyroscope: Sensor? = null
-    private var stepCount = 0
+
+    // Variable para almacenar la cantidad de pasos
+    companion object {
+        private var stepCount = 0
+        
+        fun getStepCount(): Int {
+            return stepCount
+        }
+    }
 
     // Variables para el filtro de detección de pasos
     private var lastAccelValues = FloatArray(3) // Valores anteriores del acelerómetro
@@ -51,6 +62,7 @@ class StepCounterModule(reactContext: ReactApplicationContext) :
                 // Solo se utiliza para enviar conteo de pasos desde el sensor de pasos
                 stepCount = event.values[0].toInt()
                 sendStepCountToReactNative(stepCount)
+                updateWidget(stepCount) // Actualiza el widget
             }
             Sensor.TYPE_ACCELEROMETER -> {
                 detectStepsWithAccelerometer(event.values)
@@ -76,6 +88,7 @@ class StepCounterModule(reactContext: ReactApplicationContext) :
                     stepCount++
                     lastStepTime = currentTime
                     sendStepCountToReactNative(stepCount)
+                    updateWidget(stepCount) // Actualiza el widget
                 }
             } else {
                 // Ha comenzado a moverse
@@ -90,7 +103,8 @@ class StepCounterModule(reactContext: ReactApplicationContext) :
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-     }
+        // No se necesita implementar para este caso
+    }
 
     private fun sendStepCountToReactNative(steps: Int) {
         reactApplicationContext
@@ -98,6 +112,18 @@ class StepCounterModule(reactContext: ReactApplicationContext) :
             .emit("StepCountChanged", steps)
     }
 
+    private fun updateWidget(steps: Int) {
+        // Actualiza el widget
+        val intent = Intent(reactApplicationContext, StepCounterWidgetProvider::class.java)
+        intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+        val appWidgetIds = AppWidgetManager.getInstance(reactApplicationContext).getAppWidgetIds(
+            ComponentName(reactApplicationContext, StepCounterWidgetProvider::class.java)
+        )
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+        intent.putExtra("steps", steps) // Pasa la cantidad de pasos al widget
+        reactApplicationContext.sendBroadcast(intent)
+    }
+    
     @ReactMethod
     fun startStepCounting() {
         stepSensor?.let { sensorManager?.registerListener(this, it, SensorManager.SENSOR_DELAY_UI) }

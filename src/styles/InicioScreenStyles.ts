@@ -4,17 +4,24 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1f1f1f',
-    padding: 20,
+    padding: 16,
     justifyContent: 'center',
     alignItems: 'center',
   },
   stepCounterContainer: {
     backgroundColor: '#292929',
     paddingVertical: 30,
-    paddingHorizontal: 50,
+    paddingHorizontal: 20,
     borderRadius: 20,
-    alignItems: 'center',
+    flexDirection: 'row', // Cambiado a row para alinear horizontalmente
+    alignItems: 'center', // Alinea los elementos en el centro verticalmente
+    justifyContent: 'space-between', // Espaciado entre los elementos
+    width: '100%',
     marginBottom: 30,
+  },
+  stepCountContainer: {
+    flexDirection: 'row', // Alinea el número de pasos y la etiqueta "Pasos"
+    alignItems: 'flex-end', // Alinea el número de pasos y la etiqueta en la parte inferior
   },
   stepCount: {
     fontSize: 80,
@@ -24,6 +31,8 @@ export const styles = StyleSheet.create({
   stepLabel: {
     fontSize: 20,
     color: '#ccc',
+    marginLeft: 10, // Espacio entre el número de pasos y la etiqueta
+    marginTop: 5, // Ajusta este valor para subir o bajar la etiqueta "Pasos"
   },
   detailsContainer: {
     flexDirection: 'row',
@@ -52,34 +61,54 @@ export const styles = StyleSheet.create({
   dayContainer: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 10,
+   },
+
+  progressBarContainer: {
+    width: 30,
+    height: 100, 
+    backgroundColor: '#444',
+    borderRadius: 5,
+    justifyContent: 'flex-end', 
+    overflow: 'hidden',
   },
-  currentDay: {
-    color: '#fff', // Color blanco para el día actual
-    fontWeight: 'bold', // Texto en negrita para el día actual
+  progressBar: {
+    width: '100%',
+    borderRadius: 5,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  stepsText: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginBottom: 2,
   },
   defaultDay: {
     color: '#aaa', // Color gris para los demás días
-  },
-  dayLabel: {
     fontSize: 14,
-  },
-  averageSteps: {
-    fontSize: 16,
-    color: '#aaa',
+    marginTop: 8,
+
   },
 
-  pauseButton: {
-    backgroundColor: '#f44336',
-    padding: 15,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 20,
+  currentDay: {
+    color: '#FF7F50', // Color blanco para el día actual
+    fontWeight: 'bold', // Texto en negrita para el día actual
+    marginTop: 8,
   },
-  pauseButtonText: {
+  
+  averageSteps: {
+    color: '#aaa',
     fontSize: 18,
-    color: '#fff',
-    fontWeight: 'bold',
+    marginTop: 16,
+  },
+  pauseButton: {
+    padding: 10,
+ 
+  },
+  pauseButtonIcon: {
+    width: 24, // Ajusta el tamaño del ícono según sea necesario
+    height: 24,
+    top: 40,
+
   },
 });

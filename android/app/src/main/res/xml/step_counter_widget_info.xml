@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android">
+    <resizeable>true</resizeable>
+    <minWidth>400dp</minWidth> <!-- Aumentar el ancho mínimo -->
+    <minHeight>200dp</minHeight> <!-- Aumentar la altura mínima -->
+    <updatePeriodMillis>180000</updatePeriodMillis>   
+    <initialLayout>@layout/widget_step_counter</initialLayout>
+    <widgetCategory>home_screen</widgetCategory>
+</appwidget-provider>

@@ -1,0 +1,4 @@
+<resources>
+    <color name="colorAccent">#FF7F50</color> <!-- Puedes elegir el color que prefieras -->
+    <color name="widget_background">#2C2C2C</color> <!-- Fondo del widget -->
+</resources>
